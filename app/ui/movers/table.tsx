@@ -1,8 +1,7 @@
 import Image from 'next/image';
-import { UpdateInvoice, DeleteInvoice } from '@/app/ui/invoices/buttons';
-import InvoiceStatus from '@/app/ui/invoices/status';
+import InvoiceStatus from '@/app/ui/movers/status';
 import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
-import { fetchFilteredInvoices } from '@/app/lib/data';
+import { InvoicesTable } from '@/app/lib/definitions';
 
 export default async function InvoicesTable({
   query,
@@ -11,7 +10,7 @@ export default async function InvoicesTable({
   query: string;
   currentPage: number;
 }) {
-  const invoices = await fetchFilteredInvoices(query, currentPage);
+  const invoices:InvoicesTable[] = [];
 
   return (
     <div className="mt-6 flow-root">
@@ -46,10 +45,10 @@ export default async function InvoicesTable({
                     </p>
                     <p>{formatDateToLocal(invoice.date)}</p>
                   </div>
-                  <div className="flex justify-end gap-2">
+                  {/* <div className="flex justify-end gap-2">
                     <UpdateInvoice id={invoice.id} />
                     <DeleteInvoice id={invoice.id} />
-                  </div>
+                  </div> */}
                 </div>
               </div>
             ))}
@@ -58,23 +57,23 @@ export default async function InvoicesTable({
             <thead className="rounded-lg text-left text-sm font-normal">
               <tr>
                 <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
-                  Customer
+                  Company
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
-                  Email
+                  Symbol
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
-                  Amount
+                  Price
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
-                  Date
+                  Change Amount
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
-                  Status
+                  Change %
                 </th>
-                <th scope="col" className="relative py-3 pl-6 pr-3">
+                {/* <th scope="col" className="relative py-3 pl-6 pr-3">
                   <span className="sr-only">Edit</span>
-                </th>
+                </th> */}
               </tr>
             </thead>
             <tbody className="bg-white">
@@ -107,12 +106,12 @@ export default async function InvoicesTable({
                   <td className="whitespace-nowrap px-3 py-3">
                     <InvoiceStatus status={invoice.status} />
                   </td>
-                  <td className="whitespace-nowrap py-3 pl-6 pr-3">
+                  {/* <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex justify-end gap-3">
                       <UpdateInvoice id={invoice.id} />
                       <DeleteInvoice id={invoice.id} />
                     </div>
-                  </td>
+                  </td> */}
                 </tr>
               ))}
             </tbody>

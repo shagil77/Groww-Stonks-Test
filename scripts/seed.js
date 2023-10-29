@@ -6,6 +6,11 @@ const {
   users,
 } = require('../app/lib/placeholder-data.js');
 const bcrypt = require('bcrypt');
+const fs = require('fs');
+const csvParser = require('csv-parser');
+const {Redis} = require('@upstash/redis');
+
+const csvFilePath = './scripts/listing_status.csv'; // Replace this with the path to your CSV file
 
 async function seedUsers() {
   try {
@@ -160,9 +165,45 @@ async function seedRevenue() {
   }
 }
 
+
+
+const parseCSV = async () => {
+  const data = [];
+
+  return new Promise((resolve, reject) => {
+    fs.createReadStream(csvFilePath)
+      .pipe(csvParser())
+      .on('data', (row) => {
+        data.push(row);
+      })
+      .on('end', () => {
+        resolve(data);
+      })
+      .on('error', (error) => {
+        reject(error);
+      });
+  });
+};
+
+const seedData = async () => {
+  try {
+    const parsedData = await parseCSV();
+    console.log('Parsed CSV data:', parsedData.length, parsedData[0]);
+    const redis = Redis.fromEnv();
+    for(let i=0; i<parsedData.length; i++) {
+      redis.set(parsedData[i].symbol, parsedData[i].name);
+    }
+    // Process the parsed data as needed, for example, save it to a database
+  } catch (error) {
+    console.error('Error reading CSV file:', error);
+  }
+};
+
+
 (async () => {
-  await seedUsers();
-  await seedCustomers();
-  await seedInvoices();
-  await seedRevenue();
+  await seedData();
+  // await seedUsers();
+  // await seedCustomers();
+  // await seedInvoices();
+  // await seedRevenue();
 })();
