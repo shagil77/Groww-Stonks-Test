@@ -4,7 +4,7 @@ import { lusitana } from "../ui/fonts";
 import { LatestInvoicesSkeleton } from "../ui/skeletons";
 import { ArrowCircleUpIcon, ArrowUpIcon, OfficeBuildingIcon } from "@heroicons/react/solid";
 import Graph from "../ui/company/graph";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { CompanyInfo, GlobalQuote } from "../lib/definitions";
 import { getCompanyByTickerSymbol, getQuoteByTickerSymbol } from "../lib/actions";
 import { ArrowCircleDownIcon } from "@heroicons/react/outline";
@@ -15,10 +15,12 @@ export default function Page() {
     if(!companySymbol) return null;
     const [companyInfo, setCompanyInfo] = useState<CompanyInfo|null>(null);
     const [companyQuote, setCompanyQuote] = useState<GlobalQuote|null>(null);
+    const errorToast = 
 
     useEffect(()=>{
         const getCompanyInfo = async() => {
             const res = await getCompanyByTickerSymbol(companySymbol);
+            if(res===null) throw new Error("Could not fetch company details. Maybe the API limit is reached!");
             setCompanyInfo(res);
         }
         const getCompanyQuote = async() => {

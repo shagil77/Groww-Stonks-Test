@@ -6,6 +6,7 @@ import { useDebouncedCallback } from 'use-debounce';
 import { SearchResult } from '../lib/definitions';
 import { useState } from 'react';
 import { fetchSearchResults } from '../lib/actions';
+import Link from 'next/link';
 
 export default function Search() {
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
@@ -38,18 +39,21 @@ export default function Search() {
         <ul className='ml-0 pl-0'>
           {searchResults.map((searchRes) => (
             <li>
-              <div
-                key={4}
-                className="mb-2 w-full rounded-md bg-white p-4"
-              >
-                <div className="flex items-center justify-between">
-                  <div className="mb-2 flex items-center">
-                    <OfficeBuildingIcon width={20} height={20} />
-                    <p>{searchRes["2. name"]}</p>
+              <Link key={searchRes['1. symbol']} href={`/company?symbol=${searchRes['1. symbol']}`}>
+                <div
+                  key={4}
+                  className="mb-2 w-full rounded-md bg-white p-4"
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="mb-2 flex items-center">
+                      <OfficeBuildingIcon width={20} height={20} />
+                      <p>{searchRes["2. name"]}</p>
+                    </div>
+                    <p className="text-sm text-gray-500">{searchRes["1. symbol"]}</p>
                   </div>
-                  <p className="text-sm text-gray-500">{searchRes["1. symbol"]}</p>
                 </div>
-              </div>
+              </Link>
+              
             </li>
           ))}
         </ul>

@@ -88,7 +88,6 @@ export default function ChartView() {
     };
     const quarterData = async() => {
       const res = await fetch3MDaysData(companySymbol);
-      console.log("<<<< quarter", res)
       setPerformance(res);
 
     };

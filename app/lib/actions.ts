@@ -318,6 +318,8 @@ export async function getCompanyByTickerSymbol(symbol:string):Promise<CompanyInf
     
     const company:CompanyInfo = await res.json();
 
+    if(!company.Symbol) return null;
+
     return company;
   } catch(error) {
     console.log(error);
