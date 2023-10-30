@@ -1,5 +1,5 @@
-import { ArrowRightIcon } from '@heroicons/react/24/outline';
-import { ArrowUpRightIcon, BuildingOfficeIcon } from '@heroicons/react/20/solid';
+import { ArrowRightIcon } from '@heroicons/react/outline';
+import { ArrowUpIcon, OfficeBuildingIcon } from '@heroicons/react/solid';
 import clsx from 'clsx';
 import Image from 'next/image';
 import { lusitana } from '@/app/ui/fonts';
@@ -20,7 +20,9 @@ export default async function TopGainers() {
         <div className="bg-white px-6">
           {topGainers.map((company, i) => {
             return (
-              <div
+              <Link
+              key={company.ticker} href={`/company?symbol=${company.ticker}`}>
+                <div
                 key={company.ticker}
                 className={clsx(
                   'flex flex-row items-center justify-between py-4',
@@ -30,7 +32,7 @@ export default async function TopGainers() {
                 )}
               >
                 <div className="flex items-center">
-                  {company.image==='' && <BuildingOfficeIcon width={20} height={20} className='mr-4 rounded-full'/>}
+                  {company.image==='' && <OfficeBuildingIcon width={20} height={20} className='mr-4 rounded-full'/>}
                   {company.image !=='' && <Image
                     src={company.image}
                     className="mr-4 rounded-full"
@@ -38,7 +40,7 @@ export default async function TopGainers() {
                     height={32} alt={company.name}                  />}
                   <div className="min-w-0">
                     <p className="truncate text-sm font-semibold md:text-base">
-                      {company.name}
+                      {company.name.length > 30 ? `${company.name.slice(0, 30)}...` : company.name}
                     </p>
                     <p className="hidden text-sm text-gray-500 sm:block">
                       {company.ticker}
@@ -51,10 +53,12 @@ export default async function TopGainers() {
                     >
                     ${company.price}
                     </p>
-                    <ArrowUpRightIcon color='green' width={16} height={16} />
+                    <ArrowUpIcon color='green' width={16} height={16} rotate={'45deg'} />
                     <p className={`${lusitana.className} truncate text-sm font-medium md:text-base`}>{Math.round(parseFloat(company.change_percentage))}%</p>
                 </div>
               </div>
+              </Link>
+              
             );
           })}
         </div>

@@ -1,7 +1,7 @@
 import InvoiceStatus from '@/app/ui/movers/status';
 import { fetchFilteredTopGainers } from '@/app/lib/data';
 import Link from 'next/link';
-import { BuildingOfficeIcon } from '@heroicons/react/20/solid';
+import { ArrowRightIcon, OfficeBuildingIcon } from '@heroicons/react/solid';
 
 export default async function TopGainersTable({
   query,
@@ -55,7 +55,7 @@ export default async function TopGainersTable({
                         <div className="flex items-center justify-between border-b pb-4">
                         <div>
                             <div className="mb-2 flex items-center">
-                                <BuildingOfficeIcon width={20} height={20} />
+                                <OfficeBuildingIcon width={20} height={20} />
                             {/* <Image
                                 src={gainer.image}
                                 className="mr-2 rounded-full"
@@ -67,7 +67,7 @@ export default async function TopGainersTable({
                             </div>
                             <p className="text-sm text-gray-500">{gainer.ticker}</p>
                         </div>
-                        <InvoiceStatus status={"paid"} />
+                        <InvoiceStatus status={gainer.change_percentage} />
                         </div>
                         <div className="flex w-full items-center justify-between pt-4">
                         <div>
@@ -76,10 +76,11 @@ export default async function TopGainersTable({
                             </p>
                             <p>{gainer.change_amount}</p>
                         </div>
-                        {/* <div className="flex justify-end gap-2">
-                            <UpdateInvoice id={invoice.id} />
-                            <DeleteInvoice id={invoice.id} />
-                        </div> */}
+                        <div className="flex justify-end gap-2">
+                        <Link key={gainer.ticker} href={`/company?symbol=${gainer.ticker}`}>
+                                <ArrowRightIcon width={15} height={15} />
+                            </Link>
+                        </div>
                         </div>
                     </div>
                     ))}
@@ -102,9 +103,9 @@ export default async function TopGainersTable({
                         <th scope="col" className="px-3 py-5 font-medium">
                         Change %
                         </th>
-                        {/* <th scope="col" className="relative py-3 pl-6 pr-3">
-                        <span className="sr-only">Edit</span>
-                        </th> */}
+                        <th scope="col" className="relative py-3 pl-6 pr-3">
+                        <span className="sr-only">CTA</span>
+                        </th>
                     </tr>
                     </thead>
                     <tbody className="bg-white">
@@ -115,7 +116,7 @@ export default async function TopGainersTable({
                         >
                         <td className="whitespace-nowrap py-3 pl-6 pr-3">
                             <div className="flex items-center gap-3">
-                                <BuildingOfficeIcon width={20} height={20} />
+                                <OfficeBuildingIcon width={20} height={20} />
                             {/* <Image
                                 src={invoice.image_url}
                                 className="rounded-full"
@@ -136,15 +137,17 @@ export default async function TopGainersTable({
                             {gainer.change_amount}
                         </td>
                         <td className="whitespace-nowrap px-3 py-3">
-                            <InvoiceStatus status={"paid"} />
+                            <InvoiceStatus status={gainer.change_percentage} />
                         </td>
-                        {/* <td className="whitespace-nowrap py-3 pl-6 pr-3">
+                        <td className="whitespace-nowrap py-3 pl-6 pr-3">
                             <div className="flex justify-end gap-3">
-                            <UpdateInvoice id={invoice.id} />
-                            <DeleteInvoice id={invoice.id} />
+                            <Link key={gainer.ticker} href={`/company?symbol=${gainer.ticker}`}>
+                                <ArrowRightIcon width={15} height={15} />
+                            </Link>
                             </div>
-                        </td> */}
+                        </td>
                         </tr>
+                        
                     ))}
                     </tbody>
                 </table>

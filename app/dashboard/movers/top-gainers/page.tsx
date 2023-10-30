@@ -9,6 +9,7 @@ import { Metadata } from 'next';
 import Tabs from '@/app/ui/movers/tabs';
 import TopGainersTable from '@/app/ui/movers/top-gainers-table';
 import { fetchTotalPages } from '@/app/lib/data';
+import redisHandler from '@/app/lib/redis';
  
 export const metadata: Metadata = {
   title: 'Top-Gainers',
@@ -32,12 +33,7 @@ export default async function Page({
       <div className="flex w-full items-center justify-between">
         <h1 className={`${lusitana.className} text-2xl`}>Market Movers</h1>
       </div>
-      <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
-        <Search placeholder="Search..." />
-        {/* <CreateInvoice /> */}
-      </div>
        <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>
-        {/* <Table query={query} currentPage={currentPage} /> */}
         <TopGainersTable query={query} currentPage={currentPage} />
        </Suspense>
       <div className="mt-5 flex w-full justify-center">

@@ -1,4 +1,5 @@
-import { CheckIcon, ClockIcon } from '@heroicons/react/24/outline';
+import { CheckIcon, ClockIcon } from '@heroicons/react/outline';
+import { ArrowCircleDownIcon, ArrowCircleUpIcon } from '@heroicons/react/solid';
 import clsx from 'clsx';
 
 export default function InvoiceStatus({ status }: { status: string }) {
@@ -7,21 +8,21 @@ export default function InvoiceStatus({ status }: { status: string }) {
       className={clsx(
         'inline-flex items-center rounded-full px-2 py-1 text-xs',
         {
-          'bg-gray-100 text-gray-500': status === 'pending',
-          'bg-green-500 text-white': status === 'paid',
+          'bg-red-500 text-white': status.startsWith('-'),
+          'bg-green-500 text-white': !status.startsWith('-'),
         },
       )}
     >
-      {status === 'pending' ? (
+      {status.startsWith('-') ? (
         <>
-          Pending
-          <ClockIcon className="ml-1 w-4 text-gray-500" />
+          <p>{status}</p>
+          <ArrowCircleDownIcon className="ml-1 w-4 text-white" />
         </>
       ) : null}
-      {status === 'paid' ? (
+      {!status.startsWith('-') ? (
         <>
-          Paid
-          <CheckIcon className="ml-1 w-4 text-white" />
+          {status}
+          <ArrowCircleUpIcon className="ml-1 w-4 text-white" />
         </>
       ) : null}
     </span>

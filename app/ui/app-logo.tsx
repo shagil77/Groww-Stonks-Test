@@ -1,14 +1,13 @@
-import { GlobeAltIcon } from '@heroicons/react/24/outline';
+import { GlobeAltIcon } from '@heroicons/react/outline';
 import { lusitana } from '@/app/ui/fonts';
 
 export default function AppLogo() {
   return (
     <div
-      className={`${lusitana.className} flex flex-row items-center leading-none text-white`}
+      className={`${lusitana.className} flex flex-row items-center  text-white`}
     >
       <GlobeAltIcon className="h-12 w-12 rotate-[15deg]" />
-      <p className="text-[44px]">Groww</p>
-      <p className="text-[44px] text-emerald-600">Stonks</p>
+      <p className="ml-1 text-[20px]">GrowwStonks</p>
     </div>
   );
 }

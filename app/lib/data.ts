@@ -11,6 +11,9 @@ import {
   MoverCompany,
   Mover,
   TopGainersLosers,
+  SearchResult,
+  StockData,
+  DailyPrice,
 } from './definitions';
 import { formatCurrency } from './utils';
 import { unstable_noStore as noStore } from 'next/cache';
@@ -20,19 +23,7 @@ import { Time } from '../ssrRoute/page';
 
 const redis = RedisHandler.getRedisInstance();
 
-const getCompanyByTickerSymbol = async(symbol:string):Promise<CompanyInfo|null> => {
-  const URL = `https://www.alphavantage.co/query?function=OVERVIEW&symbol=${symbol}&apikey=${process.env.ALPHAVANTAGE_API_KEY}`;
 
-  try {
-    const {data} = await axios.get(URL);
-    if(!data) return null;
-
-    return data;
-  } catch(error) {
-    console.log(error);
-    return null;
-  }
-}
 
 const getCompanyNameByTickerSymbol = async(symbol:string) => {
 
@@ -236,3 +227,6 @@ export async function fetchTotalPages() {
 
   return 0;
 }
+
+
+
