@@ -19,7 +19,6 @@ import { formatCurrency } from './utils';
 import { unstable_noStore as noStore } from 'next/cache';
 import RedisHandler from './redis';
 import axios from 'axios';
-import { Time } from '../ssrRoute/page';
 
 const redis = RedisHandler.getRedisInstance();
 
@@ -37,28 +36,6 @@ const getCompanyNameByTickerSymbol = async(symbol:string) => {
     return '...';
   }
 
-}
-
-export const fetchTime2 = async():Promise<Time> => {
-  const res = await fetch("http://worldtimeapi.org/api/timezone/Asia/Kolkata", {
-        next: {
-            revalidate: 20
-        }
-    });
-
-    const data:Time = await res.json();
-    return data;
-}
-
-export const fetchTime = async():Promise<Time> => {
-  const res = await fetch("http://worldtimeapi.org/api/timezone/Asia/Kolkata", {
-        next: {
-            revalidate: 10
-        }
-    });
-
-    const data:Time = await res.json();
-    return data;
 }
 
 export const fetchTopGainers = async():Promise<MoverCompany[]> => {
